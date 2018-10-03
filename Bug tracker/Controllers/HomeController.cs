@@ -13,18 +13,45 @@ namespace Bug_tracker.Controllers
             return View();
         }
 
-        public ActionResult About()
+        public ActionResult Tables()
         {
-            ViewBag.Message = "Your application description page.";
 
             return View();
         }
 
-        public ActionResult Contact()
+        public ActionResult Charts()
         {
-            ViewBag.Message = "Your contact page.";
 
             return View();
         }
+
+        public ActionResult Forms()
+        {
+
+            return View();
+        }
+        public ActionResult BlankPage()
+        {
+
+            return View();
+        }
+        public ActionResult BootstrapElements()
+        {
+
+            return View();
+        }
+
+        public ActionResult BootstrapGrid()
+        {
+
+            return View();
+        }
+        public ActionResult IndexRTL()
+        {
+
+            return View();
+        }
+
+
     }
 }
