@@ -1,0 +1,17 @@
+﻿@model Bug_tracker.Models.AssignViewModel
+
+@{
+    ViewBag.Title = "AssignUsers";
+}
+<div id="page-wrapper">
+
+    <h2>AssignUsers</h2>
+
+    @using (Html.BeginForm())
+    {
+        @Html.HiddenFor(p => p.Id)
+        @Html.ListBoxFor(p => p.SelectedUsers, Model.UserList)
+        <input type="submit" value="Submit!" />
+    }
+
+    </div>

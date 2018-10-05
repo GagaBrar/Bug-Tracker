@@ -8,14 +8,15 @@ namespace Bug_tracker.Migrations
     using System.Data.Entity.Migrations;
     using System.Linq;
 
-    internal sealed class Configuration : DbMigrationsConfiguration<Bug_tracker.Models.ApplicationDbContext>
+    internal sealed class Configuration : DbMigrationsConfiguration<ApplicationDbContext>
     {
         public Configuration()
         {
-            AutomaticMigrationsEnabled = false;
+            AutomaticMigrationsEnabled = true;
+            ContextKey = "Bug_tracker.Models.ApplicationDbContext";
         }
 
-        protected override void Seed(Bug_tracker.Models.ApplicationDbContext context)
+        protected override void Seed(ApplicationDbContext context)
         {
             var userManager = new UserManager<ApplicationUser>(new UserStore<ApplicationUser>(context));
             var roleManager = new RoleManager<IdentityRole>(new RoleStore<IdentityRole>(context));
@@ -47,7 +48,7 @@ namespace Bug_tracker.Migrations
                 adminUser = new ApplicationUser();
                 adminUser.Email = "admin@bugtracker.com";
                 adminUser.UserName = "admin@bugtracker.com";
-
+               
                 userManager.Create(adminUser, "Password-1");
             }
             else

@@ -13,39 +13,13 @@ namespace Bug_tracker.Controllers
             return View();
         }
 
-        public ActionResult Tables()
-        {
-
-            return View();
-        }
-
-        public ActionResult Charts()
-        {
-
-            return View();
-        }
-
-        public ActionResult Forms()
-        {
-
-            return View();
-        }
+       
         public ActionResult BlankPage()
         {
 
             return View();
         }
-        public ActionResult BootstrapElements()
-        {
-
-            return View();
-        }
-
-        public ActionResult BootstrapGrid()
-        {
-
-            return View();
-        }
+       
         public ActionResult IndexRTL()
         {
 

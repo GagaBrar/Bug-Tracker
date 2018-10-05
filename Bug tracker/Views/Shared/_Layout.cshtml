@@ -36,6 +36,10 @@
                     <span class="icon-bar"></span>
                 </button>
                 <a class="navbar-brand" href="#">@User.Identity.Name</a>
+                <a class="navbar-brand" href="#">Project Management</a>
+
+                @Html.Partial("_LoginPartial")
+
             </div>
             <!-- Top Menu Items -->
             <ul class="nav navbar-right top-nav">
@@ -50,10 +54,10 @@
                                     </span>
                                     <div class="media-body">
                                         <h5 class="media-heading">
-                                            <strong>John Smith</strong>
+                                            <strong>Gagan Brar</strong>
                                         </h5>
                                         <p class="small text-muted"><i class="fa fa-clock-o"></i> Yesterday at 4:32 PM</p>
-                                        <p>Lorem ipsum dolor sit amet, consectetur...</p>
+                                        <p>Project Manager</p>
                                     </div>
                                 </div>
                             </a>
@@ -95,35 +99,9 @@
                         </li>
                     </ul>
                 </li>
+              
                 <li class="dropdown">
-                    <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-bell"></i> <b class="caret"></b></a>
-                    <ul class="dropdown-menu alert-dropdown">
-                        <li>
-                            <a href="#">Alert Name <span class="label label-default">Alert Badge</span></a>
-                        </li>
-                        <li>
-                            <a href="#">Alert Name <span class="label label-primary">Alert Badge</span></a>
-                        </li>
-                        <li>
-                            <a href="#">Alert Name <span class="label label-success">Alert Badge</span></a>
-                        </li>
-                        <li>
-                            <a href="#">Alert Name <span class="label label-info">Alert Badge</span></a>
-                        </li>
-                        <li>
-                            <a href="#">Alert Name <span class="label label-warning">Alert Badge</span></a>
-                        </li>
-                        <li>
-                            <a href="#">Alert Name <span class="label label-danger">Alert Badge</span></a>
-                        </li>
-                        <li class="divider"></li>
-                        <li>
-                            <a href="#">View All</a>
-                        </li>
-                    </ul>
-                </li>
-                <li class="dropdown">
-                    <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-user"></i> John Smith <b class="caret"></b></a>
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-user"></i> Gagan Brar <b class="caret"></b></a>
                     <ul class="dropdown-menu">
                         <li>
                             <a href="#"><i class="fa fa-fw fa-user"></i> Profile</a>
@@ -178,31 +156,33 @@
                         <a href="@Url.Action("Index","Home")"><i class="fa fa-fw fa-dashboard"></i> Dashboard</a>
                     </li>
                     <li>
-                        <a href="@Url.Action("Charts", "Home")"><i class="fa fa-fw fa-bar-chart-o"></i> Charts</a>
-                    </li>
-                    <li>
-                        <a href="@Url.Action("Tables", "Home")"><i class="fa fa-fw fa-table"></i> Tables</a>
-                    </li>
-                    <li>
-                        <a href="@Url.Action("Forms", "Home")"><i class="fa fa-fw fa-edit"></i> Forms</a>
-                    </li>
-                    <li>
-                        <a href="@Url.Action("BootstrapElements", "Home")"><i class="fa fa-fw fa-desktop"></i> Bootstrap Elements</a>
-                    </li>
-                    <li>
-                        <a href="@Url.Action("BootstrapGrid", "Home")"><i class="fa fa-fw fa-wrench"></i> Bootstrap Grid</a>
-                    </li>
-                    <li>
-                        <a href="javascript:;" data-toggle="collapse" data-target="#demo"><i class="fa fa-fw fa-arrows-v"></i> Dropdown <i class="fa fa-fw fa-caret-down"></i></a>
+                        <a href="javascript:;" data-toggle="collapse" data-target="#demo"><i class="fa fa-fw fa-arrows-v"></i> Profiles <i class="fa fa-fw fa-caret-down"></i></a>
                         <ul id="demo" class="collapse">
                             <li>
-                                <a href="#">Dropdown Item</a>
+                                <a href="#">Admin</a>
                             </li>
                             <li>
-                                <a href="#">Dropdown Item</a>
+                                <a href="#">Project Manager</a>
+                            </li>
+                            <li>
+                                <a href="#">Developer</a>
+                            </li>
+                            <li>
+                                <a href="#">Submitter</a>
                             </li>
                         </ul>
                     </li>
+
+                       <li>
+                            <a href="@Url.Action("Index","ApplicationUsers")"><i class="fa fa-fw fa-file"></i> ChangeRoles</a>
+                        </li>
+                    
+                    
+                        <li>
+                            <a href="@Url.Action("Index","Project")"><i class="fa fa-fw fa-file"></i> Projects</a>
+                        </li>
+                    
+
                     <li>
                         <a href="@Url.Action("BlankPage", "Home")"><i class="fa fa-fw fa-file"></i> Blank Page</a>
                     </li>
@@ -228,12 +208,6 @@
         <script src="~/Scripts/raphael.min.js"></script>
         <script src="~/Scripts/morris.min.js"></script>
         <script src="~/Scripts/morris-data.js"></script>
-        <!-- Flot Charts JavaScript -->
-        <!--[if lte IE 8]><script src="js/excanvas.min.js"></script><![endif]-->
-        <script src="~/Scripts/jquery.flot.js"></script>
-        <script src="~/Scripts/jquery.flot.tooltip.min.js"></script>
-        <script src="~/Scripts/jquery.flot.resize.js"></script>
-        <script src="~/Scripts/jquery.flot.pie.js"></script>
-        <script src="~/Scripts/flot-data.js"></script>
+        
 </body>
 </html>
