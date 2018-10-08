@@ -53,7 +53,7 @@ namespace Bug_tracker.Migrations
             }
             else
             {
-                adminUser = context.Users.First(p => p.UserName == "admin@bugtracker.com");
+                adminUser = context.Users.FirstOrDefault(p => p.UserName == "admin@bugtracker.com");
             }
 
             if (!userManager.IsInRole(adminUser.Id, "Admin"))

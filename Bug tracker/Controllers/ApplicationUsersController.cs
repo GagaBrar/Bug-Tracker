@@ -21,7 +21,7 @@ namespace Bug_tracker.Controllers
         public ActionResult ChangeRole(string id)
         {
             var model = new UserRoleViewModel();
-
+        
 
             var userRoleHelper = new UserRoleHelper();
 
@@ -30,7 +30,6 @@ namespace Bug_tracker.Controllers
             var roles = userRoleHelper.GetAllRoles();
             var userRoles = userRoleHelper.GetUserRoles(id);
             model.Roles = new MultiSelectList(roles, "Name", "Name", userRoles);
-            var UserRoleHelper = new UserRoleHelper();
 
             return View(model);
         }
@@ -53,6 +52,9 @@ namespace Bug_tracker.Controllers
 
                 userManager.AddToRole(user.Id, role);
             };
+
+            // var signInManager = HttpContext.GetOwinContext().Get<ApplicationSignInManager>();
+            // signInManager.SignIn(user, isPersistent: false, rememberBrowser: false);
             return RedirectToAction("Index");
         }
         protected override void Dispose(bool disposing)

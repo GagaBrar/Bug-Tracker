@@ -5,6 +5,8 @@ using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
 using System.Web;
+using System.Net.Mail;
+using System.Web.Configuration;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.EntityFramework;
 using Microsoft.AspNet.Identity.Owin;
@@ -19,7 +21,16 @@ namespace Bug_tracker
         public Task SendAsync(IdentityMessage message)
         {
             // Plug in your email service here to send an email.
-            return Task.FromResult(0);
+
+            var personalEmailService = new PersonalEmailService();
+            var mailMessage = new MailMessage(
+               WebConfigurationManager.AppSettings["emailto"],
+               message.Destination
+               );
+            mailMessage.Body = message.Body;
+            mailMessage.Subject = message.Subject;
+            mailMessage.IsBodyHtml = true;
+            return personalEmailService.SendAsync(mailMessage);
         }
     }
 

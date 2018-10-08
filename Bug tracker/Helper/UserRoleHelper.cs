@@ -20,6 +20,9 @@ namespace Bug_tracker.Helpers
             RoleManager = new
             RoleManager<IdentityRole>(new RoleStore<IdentityRole>(Db));
         }
+
+        
+
         public List<IdentityRole> GetAllRoles()
         {
             return RoleManager.Roles.ToList();
@@ -28,5 +31,6 @@ namespace Bug_tracker.Helpers
         {
             return UserManager.GetRoles(id).ToList();
         }
+             
     }
 }
