@@ -171,23 +171,18 @@
                                 <a href="#">Submitter</a>
                             </li>
                         </ul>
-                    </li>
-
-                    <li>
-                        <a href="@Url.Action("Index","ApplicationUsers")"><i class="fa fa-fw fa-file"></i> ChangeRoles</a>
-                    </li>
+                    </li>   
 
 
-                    @if (User.IsInRole("Admin"))
-                    {
                         <li>
                             <a href="@Url.Action("Index","ApplicationUsers")"><i class="fa fa-fw fa-file"></i> ChangeRoles</a>
                         </li>
-                    }
+
+                    
                     @if (User.IsInRole("Admin") || User.IsInRole("Project Manager"))
                     {
                         <li>
-                            <a href="@Url.Action("Index","Projects","Projects")"><i class="fa fa-fw fa-file"></i> Projects</a>
+                            <a href="@Url.Action("Index", "Projects")"><i class="fa fa-fw fa-file"></i> Projects</a>
                         </li>
                     }
 
