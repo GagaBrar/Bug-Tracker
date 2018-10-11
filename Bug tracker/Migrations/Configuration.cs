@@ -60,6 +60,22 @@ namespace Bug_tracker.Migrations
             {
                 userManager.AddToRole(adminUser.Id, "Admin");
             }
+            context.TicketTypes.AddOrUpdate(x => x.Id,
+           new Models.TicketType() { Id = 1, Name = "Bug Fixes" },
+           new Models.TicketType() { Id = 2, Name = "Software Update" },
+           new Models.TicketType() { Id = 3, Name = "Adding Helpers" },
+           new Models.TicketType() { Id = 4, Name = "Database errors" });
+            context.TicketPriorities.AddOrUpdate(x => x.Id,
+               new Models.TicketPriority() { Id = 1, Name = "High" },
+               new Models.TicketPriority() { Id = 2, Name = "Medium" },
+               new Models.TicketPriority() { Id = 3, Name = "Low" },
+               new Models.TicketPriority() { Id = 4, Name = "Urgent" });
+            context.TicketStatuses.AddOrUpdate(x => x.Id,
+               new Models.TicketStatus() { Id = 1, Name = "Finished" },
+               new Models.TicketStatus() { Id = 2, Name = "Started" },
+               new Models.TicketStatus() { Id = 3, Name = "Not Started" },
+               new Models.TicketStatus() { Id = 4, Name = "In progress" });
+            context.SaveChanges();
         }
     }
 }

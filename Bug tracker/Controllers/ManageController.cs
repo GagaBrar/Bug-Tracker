@@ -15,6 +15,7 @@ namespace Bug_tracker.Controllers
     {
         private ApplicationSignInManager _signInManager;
         private ApplicationUserManager _userManager;
+        private ApplicationDbContext db = new ApplicationDbContext();
 
         public ManageController()
         {
@@ -241,6 +242,29 @@ namespace Bug_tracker.Controllers
                 return RedirectToAction("Index", new { Message = ManageMessageId.ChangePasswordSuccess });
             }
             AddErrors(result);
+            return View(model);
+        }
+
+        public ActionResult ChangeName()
+        {
+            var userId = User.Identity.GetUserId();
+            var user = db.Users.FirstOrDefault(p => p.Id == userId);
+            var model = new ChangeNameViewModel();
+            model.NewName = user.Name;
+            return View(model);
+        }
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult ChangeName(ChangeNameViewModel model)
+        {
+            if (ModelState.IsValid)
+            {
+                var userId = User.Identity.GetUserId();
+                var dbUser = db.Users.FirstOrDefault(p => p.Id == userId);
+                dbUser.Name = model.NewName;
+                db.SaveChanges();
+                return RedirectToAction("Index");
+            }
             return View(model);
         }
 

@@ -58,6 +58,14 @@ namespace Bug_tracker.Models
         public string ConfirmPassword { get; set; }
     }
 
+    public class ChangeNameViewModel
+    {
+        [Required]
+        [DataType(DataType.Text)]
+        [Display(Name = "New name")]
+        public string NewName { get; set; }
+    }
+
     public class AddPhoneNumberViewModel
     {
         [Required]

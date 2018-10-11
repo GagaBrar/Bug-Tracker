@@ -1,4 +1,6 @@
-﻿using System.Data.Entity;
+﻿using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations.Schema;
+using System.Data.Entity;
 using System.Security.Claims;
 using System.Threading.Tasks;
 using Microsoft.AspNet.Identity;
@@ -10,6 +12,10 @@ namespace Bug_tracker.Models
     public class ApplicationUser : IdentityUser
     {
         public string Name { get;  set; }
+        [InverseProperty("Creater")]
+        public virtual ICollection<Tickets> CreatedTickets { get; set; }
+        [InverseProperty("Assignee")]
+        public virtual ICollection<Tickets> AssignedTickets { get; set; }
 
         public async Task<ClaimsIdentity> GenerateUserIdentityAsync(UserManager<ApplicationUser> manager)
         {
@@ -33,6 +39,11 @@ namespace Bug_tracker.Models
         }
 
         public System.Data.Entity.DbSet<Bug_tracker.Models.Project> Projects { get; set; }
+
+        public System.Data.Entity.DbSet<Bug_tracker.Models.Tickets> Tickets { get; set; }
+        public System.Data.Entity.DbSet<Bug_tracker.Models.TicketStatus> TicketStatuses { get; set; }
+        public System.Data.Entity.DbSet<Bug_tracker.Models.TicketPriority> TicketPriorities { get; set; }
+        public System.Data.Entity.DbSet<Bug_tracker.Models.TicketType> TicketTypes { get; set; }
 
     }
 }
