@@ -31,6 +31,12 @@ namespace Bug_tracker.Helpers
         {
             return UserManager.GetRoles(id).ToList();
         }
-             
+        public ICollection<ApplicationUser> UsersInRole(string role)
+        {
+            var roleId = Db.Roles.Where(p => p.Name == role).Select(p => p.Id).FirstOrDefault();
+
+            return Db.Users.Where(p => p.Roles.Any(t => t.RoleId == roleId)).ToList();
+        }
+
     }
 }

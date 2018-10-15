@@ -12,10 +12,15 @@ namespace Bug_tracker.Models
     public class ApplicationUser : IdentityUser
     {
         public string Name { get;  set; }
+        public ICollection<Project> ProjectsList { get; set; }
         [InverseProperty("Creater")]
         public virtual ICollection<Tickets> CreatedTickets { get; set; }
         [InverseProperty("Assignee")]
         public virtual ICollection<Tickets> AssignedTickets { get; set; }
+
+        public ApplicationUser() {
+            ProjectsList = new HashSet<Project>();
+        }
 
         public async Task<ClaimsIdentity> GenerateUserIdentityAsync(UserManager<ApplicationUser> manager)
         {
