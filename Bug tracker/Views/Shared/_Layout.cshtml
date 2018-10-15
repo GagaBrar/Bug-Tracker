@@ -15,6 +15,8 @@
     <!-- Custom Fonts -->
     <link href="~/Content/morris.css" rel="stylesheet" />
     <link href="~/fonts/font-awesome.min.css" rel="stylesheet" type="text/css">
+    <link rel="stylesheet" type="text/css" href="//cdn.datatables.net/1.10.19/css/jquery.dataTables.min.css">
+
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
     <!--[if lt IE 9]>
@@ -114,18 +116,17 @@
 
         @RenderBody()
     </div>
-        @Scripts.Render("~/bundles/jquery")
-        @Scripts.Render("~/bundles/bootstrap")
-        @RenderSection("scripts", required: false)
-        <!-- /#wrapper -->
-        <!-- jQuery -->
-        <script src="~/Scripts/jquery.js"></script>
-        <!-- Bootstrap Core JavaScript -->
-        <script src="~/Scripts/bootstrap.min.js"></script>
-        <!-- Morris Charts JavaScript -->
-        <script src="~/Scripts/raphael.min.js"></script>
-        <script src="~/Scripts/morris.min.js"></script>
-        <script src="~/Scripts/morris-data.js"></script>
-        
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/bootstrap")
+    @RenderSection("scripts", required: false)
+    <!-- /#wrapper -->
+    <!-- jQuery -->
+    <!-- Bootstrap Core JavaScript -->
+    <script src="~/Scripts/bootstrap.min.js"></script>
+    <!-- Morris Charts JavaScript -->
+    <script type="text/javascript" charset="utf8" src="//cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
+
+
+
 </body>
 </html>
