@@ -6,7 +6,7 @@ using System.Net;
 using System.Web;
 using System.Web.Mvc;
 using Bug_tracker.Models;
-
+using Microsoft.AspNet.Identity;
 
 namespace Bug_tracker.Controllers
 {
@@ -18,6 +18,13 @@ namespace Bug_tracker.Controllers
         public ActionResult Index()
         {
             return View(db.Projects.ToList());
+        }
+        public ActionResult MyProjects()
+        {
+            string userId = User.Identity.GetUserId();
+            var UsersIds = db.Users.Where(p => p.Id == userId).FirstOrDefault();
+            var projects = UsersIds.ProjectsList.ToList();
+            return View("Index", projects);
         }
 
         // GET: Projects/Details/5

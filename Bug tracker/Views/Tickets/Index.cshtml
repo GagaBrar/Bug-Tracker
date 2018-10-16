@@ -60,7 +60,7 @@
                 @foreach (var item in Model)
                 {
                 <tr>
-                
+
                     <td>
                         @Html.DisplayFor(modelItem => item.Project.Name)
                     </td>
@@ -85,19 +85,22 @@
                     <td>
                         @Html.DisplayFor(modelItem => item.Updated)
                     </td>
-                    @if (User.Identity.IsAuthenticated && !string.IsNullOrWhiteSpace(ViewBag.User))
+                    @if (User.IsInRole("Developer"))
                     {
-                        if (User.IsInRole("Developer"))
-                        {
-                            <td>
-                                @Html.ActionLink("Edit", "Edit", new { id = item.Id })
-                            </td>
-                        }
+                        <td>
+                            @Html.ActionLink("Edit", "Edit", new { id = item.Id })
+                        </td>
                     }
                     @if (User.IsInRole("Project Manager"))
                     {
-                        @Html.ActionLink("AssignDeveloper", "AssignDeveloper", new { ticketId = item.Id })
+                        <td>
+                            @Html.ActionLink("AssignDeveloper", "AssignDeveloper", new { ticketId = item.Id })
+                        </td>
+                        <td>
+                            @Html.ActionLink("Edit", "Edit", new { id = item.Id })
+                        </td>
                     }
+
                 </tr>
 
                                     }

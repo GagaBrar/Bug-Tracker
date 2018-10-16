@@ -46,17 +46,23 @@ namespace Bug_tracker.Controllers
                 var tickets = db.Tickets.Where(t => t.AssigneeId == userID).Include(t => t.Creater).Include(t => t.Assignee).Include(t => t.Project);
                 return View("Index", tickets.ToList());
             }
+            if (User.IsInRole("Project Manager"))
+            {
+                return View(db.Tickets.Include(t => t.TicketPriority).Include(t => t.Project).Include(t => t.TicketStatus).Include(t => t.TicketType).Where(p => p.AssigneeId == userID).ToList());
+            }
             return View("Index");
         }
         // Project Manger and Developer Tickets
-        [Authorize(Roles = "Project Manager,Developer")]
+        [Authorize(Roles = "Developer,Project Manager")]
         public ActionResult ProjectManagerOrDeveloperTickets()
         {
             string userId = User.Identity.GetUserId();
             var ProjectId = db.Users.Where(p => p.Id == userId).FirstOrDefault();
-            var Project = ProjectId.ProjectsList.Select(p => p.Id).FirstOrDefault();
-            var tickets = db.Tickets.Where(p => p.Id == Project).ToList();
-            return View("Index", tickets);
+            //var Project = ProjectId.ProjectsList.Select(p => p.Id).FirstOrDefault();
+            //var tickets = db.Tickets.Where(p => p.Id == Project).ToList();
+            var projectsIds = ProjectId.ProjectsList.Select(p => p.Id).ToList();
+            var tickets1 = db.Tickets.Where(p => projectsIds.Contains(p.ProjectId)).ToList();
+         return View("Index", tickets1);
         }
 
         public ActionResult AssignDeveloper(int ticketId)
