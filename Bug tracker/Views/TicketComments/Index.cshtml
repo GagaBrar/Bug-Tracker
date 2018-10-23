@@ -1,0 +1,117 @@
+﻿@model IEnumerable<Bug_tracker.Models.TicketComment>
+@{
+    ViewBag.Title = "Index";
+}
+@section Scripts {
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $('#wer').DataTable();
+        });
+    </script>
+}
+<div id="page-wrapper">
+<h2>Index</h2>
+@if (User.IsInRole("Submitter"))
+{
+    <p>
+        @Html.ActionLink("Create New", "Create")
+    </p>
+}
+    <table id="wer" class="table">
+        <thead>
+            <tr>
+                <th>
+                   Assignee
+                </th>
+                <th>
+                   Creater
+                </th>
+                <th>
+                    Project
+                </th>
+                <th>
+                    TicketPriority
+                </th>
+                <th>
+                    TicketType
+                </th>
+                <th>
+                    Name
+                </th>
+                <th>
+                  Description
+                </th>
+                <th>
+                    Created
+                </th>
+                <th>
+                    Update
+                </th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+            <tr>
+                <td>
+                   Assignee
+                </td>
+                <td>
+                    Creater
+                </td>
+                <td>
+                    Project
+                </td>
+                <td>
+                    TicketPriority
+                </td>
+                <td>
+                    TicketType
+                </td>
+                <td>
+                    Name
+                </td>
+                <td>
+                   Description
+                </td>
+                <td>
+                    Created
+                </td>
+                <td>
+                   Updated
+                </td>
+
+                @if (User.IsInRole("Developer"))
+                {
+                    <td>
+                        @Html.ActionLink("Edit", "Edit", new { id = item.Id })
+                    </td>
+                    <td>
+                        @Html.ActionLink("Details", "Details", new { id = item.Id })
+                    </td>
+                }
+                @if (User.IsInRole("Admin"))
+                {
+                    <td>
+                        @Html.ActionLink("Details", "Details", new { id = item.Id })
+                    </td>
+                }
+                @if (User.IsInRole("Project Manager"))
+                {
+                    <td>
+                        @Html.ActionLink("AssignDeveloper", "AssignDeveloper", new { ticketId = item.Id })
+                    </td>
+                    <td>
+                        @Html.ActionLink("Edit", "Edit", new { id = item.Id })
+                    </td>
+                    <td>
+                        @Html.ActionLink("Details", "Details", new { id = item.Id })
+                    </td>
+                }
+            </tr>
+            }
+            </tbody>
+    </table>
+
+</div>
