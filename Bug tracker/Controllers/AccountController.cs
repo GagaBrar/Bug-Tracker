@@ -145,6 +145,7 @@ namespace Bug_tracker.Controllers
         [AllowAnonymous]
         public ActionResult Register()
         {
+            
             return View();
         }
 

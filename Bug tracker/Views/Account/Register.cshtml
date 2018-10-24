@@ -45,7 +45,7 @@
 
         <div class="limiter">
             <div class="container-login100" style="background-image: url('images/bg-01.jpg');">
-                <div class="wrap-login100">
+                < class="wrap-login100">
                     <span class="login100-form-logo">
                         <i class="zmdi zmdi-landscape"></i>
                     </span>
@@ -80,7 +80,11 @@
                                 @Html.LabelFor(m => m.ConfirmPassword, new { @class = "focus-input100" })
 
                             </div>
-
+                            <div class="wrap-input100 validate-input">
+                                @Html.LabelFor(m => m.Name, new { @class = "focus-input100" })
+                                    @Html.TextBoxFor(m => m.Name, new { @class = "input100" })
+                                </div>
+                            
                             <div class="container-login100-form-btn">
                                 <button type="submit" class="login100-form-btn">
                                     Login
@@ -92,10 +96,10 @@
                                     @Html.ActionLink("Register as a new user", "Register")
                                 </button>
                             </div>
-                            <br/>
+                            <br />
                             <div class="container-login100-form-btn">
                                 <button type="submit" class="login100-form-btn">
-                                @Html.ActionLink("Back to Log In", "Login", "Account")
+                                    @Html.ActionLink("Back to Log In", "Login", "Account")
                                 </button>
                             </div>
                         }

@@ -59,18 +59,18 @@
 
                     @foreach (var item in Model)
                     {
-
+                        <tr>
                     <td>
-                        @Html.DisplayFor(modelItem => item.Assignee.DisplayName)
+                      Assignee
                     </td>
                     <td>
-                        @Html.DisplayFor(modelItem => item.Creater.DisplayName)
+                        Creater
                     </td>
                     <td>
-                        @Html.DisplayFor(modelItem => item.Project.Name)
+                        Project
                     </td>
                     <td>
-                        @Html.DisplayFor(modelItem => item.TicketPriority.Name)
+                        TicketPriority
                     </td>
                     @*<td>
                 @Html.DisplayFor(modelItem => item.TicketStatus.Name)
@@ -81,7 +81,6 @@
                     <td>
                         @Html.DisplayFor(modelItem => item.Name)
                     </td>
-                    }
                     <td>
                         @Html.DisplayFor(modelItem => item.Description)
                     </td>
@@ -119,8 +118,8 @@
                         <td>
                             @Html.ActionLink("Details", "Details", new { id = item.Id })
                         </td>
-                        }
-                    
+                    }
+
                     </tr>
                     }
                     </tbody>

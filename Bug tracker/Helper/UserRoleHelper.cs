@@ -37,6 +37,12 @@ namespace Bug_tracker.Helpers
 
             return Db.Users.Where(p => p.Roles.Any(t => t.RoleId == roleId)).ToList();
         }
+        public List<Project> GetUserProjects(string Id)
+        {
+            var user = UserManager.FindById(Id);
+            var projects = user.ProjectsList.ToList();
+            return projects;
+        }
 
     }
 }

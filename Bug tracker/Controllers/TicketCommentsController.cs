@@ -7,7 +7,6 @@ using System.Net;
 using System.Web;
 using System.Web.Mvc;
 using Bug_tracker.Models;
-using Bug_tracker.Models;
 namespace Bug_tracker.Controllers
 {
     public class TicketCommentsController : Controller
@@ -45,6 +44,7 @@ namespace Bug_tracker.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Admin,Project Manager,Developer,Submitter")]
         public ActionResult Create([Bind(Include = "Id,Comment,TicketId")] TicketComment ticketComment)
         {
             if (ModelState.IsValid)
@@ -53,8 +53,6 @@ namespace Bug_tracker.Controllers
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
-            ViewBag.TicketId = new SelectList(db.Tickets, "Id", "Name", ticketComment.TicketId);
-            ViewBag.UserId = new SelectList(db.Users, "Id", "DisplayName", ticketComment.UserId);
             return View(ticketComment);
         }
         // GET: TicketComments/Edit/5
