@@ -52,9 +52,6 @@ namespace Bug_tracker.Controllers
 
                 userManager.AddToRole(user.Id, role);
             };
-
-            // var signInManager = HttpContext.GetOwinContext().Get<ApplicationSignInManager>();
-            // signInManager.SignIn(user, isPersistent: false, rememberBrowser: false);
             return RedirectToAction("Index");
         }
         protected override void Dispose(bool disposing)

@@ -6,12 +6,6 @@
 @{
     Layout = null;
 }
-
-
-
-
-
-
     <!DOCTYPE html>
     <html lang="en">
     <head>
@@ -45,7 +39,7 @@
 
         <div class="limiter">
             <div class="container-login100" style="background-image: url('images/bg-01.jpg');">
-                < class="wrap-login100">
+                <div class="wrap-login100">
                     <span class="login100-form-logo">
                         <i class="zmdi zmdi-landscape"></i>
                     </span>
@@ -84,29 +78,16 @@
                                 @Html.LabelFor(m => m.Name, new { @class = "focus-input100" })
                                     @Html.TextBoxFor(m => m.Name, new { @class = "input100" })
                                 </div>
-                            
-                            <div class="container-login100-form-btn">
-                                <button type="submit" class="login100-form-btn">
-                                    Login
-                                </button>
-                            </div>
-                            <br />
-                            <div class="container-login100-form-btn">
-                                <button type="submit" class="login100-form-btn">
-                                    @Html.ActionLink("Register as a new user", "Register")
-                                </button>
-                            </div>
-                            <br />
-                            <div class="container-login100-form-btn">
-                                <button type="submit" class="login100-form-btn">
-                                    @Html.ActionLink("Back to Log In", "Login", "Account")
-                                </button>
-                            </div>
+                          <div class="form-group">
+                              <div class="col-md-offset-2 col-md-10">
+                                  <input type="submit" class="btn btn-default" value="Register"/>
+                              </div>
+                          </div>
                         }
                     }
                 </div>
             </div>
-        </div>
+        
 
 
         <div id="dropDownSelect1"></div>
@@ -127,7 +108,7 @@
         <script src="~/vendor/countdowntime/countdowntime.js"></script>
         <!--===============================================================================================-->
         <script src="~/Scripts/main.js"></script>
-
+</div>
     </body>
 </html>
 }

@@ -64,7 +64,7 @@ namespace Bug_tracker.Controllers
             var ProjectId = db.Users.Where(p => p.Id == userId).FirstOrDefault();
             var projectsIds = ProjectId.ProjectsList.Select(p => p.Id).ToList();
             var tickets1 = db.Tickets.Where(p => projectsIds.Contains(p.ProjectId)).ToList();
-         return View("Index", tickets1);
+            return View("Index", tickets1);
         }
 
         public ActionResult AssignDeveloper(int ticketId)
@@ -131,7 +131,7 @@ namespace Bug_tracker.Controllers
                 ViewBag.ErrorMessage = "Comment is required";
                 return View("Details", tickets);
             }
-            if ((User.IsInRole("Admin")) || (User.IsInRole("Project Manager") && projects.Any(p => p.Id == id)) || (User.IsInRole("Submitter") && tickets.CreaterId == userId) || (User.IsInRole("Developer") && tickets.Assignee.Id == userId))
+            if ((User.IsInRole("Admin")))
             {
                 var comment = new TicketComment();
                 comment.UserId = User.Identity.GetUserId();
@@ -141,13 +141,7 @@ namespace Bug_tracker.Controllers
                 db.TicketComments.Add(comment);
                 var user = db.Users.FirstOrDefault(p => p.Id == comment.UserId);
                 var personalEmailService = new PersonalEmailService();
-                var mailMessage = new MailMessage(
-                WebConfigurationManager.AppSettings["emailto"], user.Email
-                       );
-                mailMessage.Body = "DB Has a new Comment";
-                mailMessage.Subject = "Comment";
-                mailMessage.IsBodyHtml = true;
-                personalEmailService.Send(mailMessage);
+
                 db.SaveChanges();
             }
             else if (User.Identity.IsAuthenticated)
@@ -155,7 +149,7 @@ namespace Bug_tracker.Controllers
                 ViewBag.ErrorMessage = "Sorry!! you are not allowed to comment.";
                 return View("Details", tickets);
             }
-                return RedirectToAction("Details", new { id });
+            return RedirectToAction("Details", new { id });
         }
 
         // GET: Tickets/Create
@@ -212,35 +206,24 @@ namespace Bug_tracker.Controllers
                 {
                     return HttpNotFound();
                 }
-                if ((User.IsInRole("Admin")) || (User.IsInRole("Project Manager") && project.Any(p => p.Id == ticketId)) || (User.IsInRole("Submitter") && tickets.CreaterId == userId) || (User.IsInRole("Developer") && tickets.Assignee.Id == userId))
-                {
-                    var fileName = Path.GetFileName(image.FileName);
-                    image.SaveAs(Path.Combine(Server.MapPath("~/Uploads/"), fileName));
-                    ticketAttachment.FilePath = "/Uploads/" + fileName;
-                    ticketAttachment.UserId = User.Identity.GetUserId();
-                    ticketAttachment.Created = DateTime.Now;
-                    ticketAttachment.TicketId = ticketId;
-                    db.TicketAttachments.Add(ticketAttachment);
-                    var user = db.Users.FirstOrDefault(p => p.Id == ticketAttachment.UserId);
-                    var personalEmailService = new PersonalEmailService();
-                    var mailMessage = new MailMessage(
-                    WebConfigurationManager.AppSettings["emailto"], user.Email);
-                    mailMessage.Body = "DB Has a new attachment";
-                    mailMessage.Subject = "New Attachment";
-                    mailMessage.IsBodyHtml = true;
-                    personalEmailService.Send(mailMessage);
-                    db.SaveChanges();
-                }
-                else if (User.Identity.IsAuthenticated)
-                {
-                    ViewBag.ErrorMessage = "Sorry! you are not allowed to attach document.";
-                    return View("Details", tickets);
-                }
-                return RedirectToAction("Details", new { ticketId });
+
+                var fileName = Path.GetFileName(image.FileName);
+                image.SaveAs(Path.Combine(Server.MapPath("~/Uploads/"), fileName));
+                ticketAttachment.FilePath = "/Uploads/" + fileName;
+                ticketAttachment.UserId = User.Identity.GetUserId();
+                ticketAttachment.Created = DateTime.Now;
+                ticketAttachment.TicketId = ticketId;
+                db.TicketAttachments.Add(ticketAttachment);
+                var user = db.Users.FirstOrDefault(p => p.Id == ticketAttachment.UserId);
+                
+                db.SaveChanges(); 
+
+            
+                return RedirectToAction("Details", new { id= ticketId });
             }
             return View(ticketAttachment);
         }
-
+    
 
         // GET: Tickets/Edit/5
         public ActionResult Edit(int? id)
@@ -284,7 +267,7 @@ namespace Bug_tracker.Controllers
                 dbTicket.Description = tickets.Description;
                 dbTicket.TicketTypeId = tickets.TicketTypeId;
                 dbTicket.Updated = dateChanged;
-                dbTicket.TicketStatus = tickets.TicketStatusId;
+        
                 var originalValues = db.Entry(dbTicket).OriginalValues;
                 var currentValues = db.Entry(dbTicket).CurrentValues;
                 foreach (var property in originalValues.PropertyNames)
