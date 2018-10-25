@@ -141,8 +141,15 @@ namespace Bug_tracker.Controllers
                 db.TicketComments.Add(comment);
                 var user = db.Users.FirstOrDefault(p => p.Id == comment.UserId);
                 var personalEmailService = new PersonalEmailService();
-
+                var mailMessage = new MailMessage(
+                WebConfigurationManager.AppSettings["emailto"], user.Email
+                       );
+                mailMessage.Body = "Somebody Commented on the ticket.";
+                mailMessage.Subject = "New Comment";
+                mailMessage.IsBodyHtml = true;
+                personalEmailService.Send(mailMessage);
                 db.SaveChanges();
+               
             }
             else if (User.Identity.IsAuthenticated)
             {
@@ -215,10 +222,15 @@ namespace Bug_tracker.Controllers
                 ticketAttachment.TicketId = ticketId;
                 db.TicketAttachments.Add(ticketAttachment);
                 var user = db.Users.FirstOrDefault(p => p.Id == ticketAttachment.UserId);
-                
-                db.SaveChanges(); 
-
-            
+                var personalEmailService = new PersonalEmailService();
+                var mailMessage = new MailMessage(
+                WebConfigurationManager.AppSettings["emailto"], user.Email
+                       );
+                mailMessage.Body = "There is a new attachment to the Ticket";
+                mailMessage.Subject = "New Attachment";
+                mailMessage.IsBodyHtml = true;
+                personalEmailService.Send(mailMessage);
+                db.SaveChanges();            
                 return RedirectToAction("Details", new { id= ticketId });
             }
             return View(ticketAttachment);
