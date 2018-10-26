@@ -13,6 +13,7 @@ using System.Web.Mvc;
 using Bug_tracker.Helpers;
 using Bug_tracker.Models;
 using Microsoft.AspNet.Identity;
+using System.Net.Sockets;
 
 namespace Bug_tracker.Controllers
 {
@@ -71,12 +72,26 @@ namespace Bug_tracker.Controllers
         {
             var model = new AssigndeveloperTicket();
             var ticket = db.Tickets.FirstOrDefault(p => p.Id == ticketId);
-            var userRoleHelper = new UserRoleHelper();
-            var users = userRoleHelper.UsersInRole("Developer");
+          
+            var users = db.Users.ToList();
+            //var users = userRoleHelper.UsersInRole("Developer");
+            var userAssignedtoTicket = ticket.Users.Select(p => p.Id).ToList();
             model.TicketId = ticketId;
             model.DeveloperList = new SelectList(users, "Id", "Name");
             return View(model);
         }
+
+
+        //var model = new AssignViewModel();
+        //model.Id = id;
+        //    var project = db.Projects.FirstOrDefault(p => p.Id == id);
+        //var users = db.Users.ToList();
+        //var userIdsAssignedToProject = project.Users.Select(p => p.Id).ToList();
+        //model.UserList = new MultiSelectList(users, "Id", "Name", userIdsAssignedToProject);
+        //    return View(model);
+
+
+
         [HttpPost]
         public ActionResult AssignDeveloper(AssigndeveloperTicket model)
         {
@@ -115,12 +130,10 @@ namespace Bug_tracker.Controllers
         [Authorize(Roles = "Admin,Project Manager,Developer,Submitter")]
         public ActionResult CreateComment(int id, string body)
         {
-            var tickets = db.Tickets
-               .Where(p => p.Id == id)
-               .FirstOrDefault();
+            var tickets = db.Tickets.Where(p => p.Id == id).FirstOrDefault();
             var userId = User.Identity.GetUserId();
-            var ProjectMangerOrDeveloperId = db.Users.Where(p => p.Id == userId).FirstOrDefault();
-            var projectsIds = ProjectMangerOrDeveloperId.ProjectsList.Select(p => p.Id).ToList();
+            var MangerOrDeveloperId = db.Users.Where(p => p.Id == userId).FirstOrDefault();
+            var projectsIds = MangerOrDeveloperId.ProjectsList.Select(p => p.Id).ToList();
             var projects = db.Tickets.Where(p => projectsIds.Contains(p.ProjectId)).ToList();
             if (tickets == null)
             {
@@ -131,7 +144,7 @@ namespace Bug_tracker.Controllers
                 ViewBag.ErrorMessage = "Comment is required";
                 return View("Details", tickets);
             }
-            if ((User.IsInRole("Admin")))
+            if ((User.IsInRole("Admin") || User.IsInRole("ProjectManagers")))
             {
                 var comment = new TicketComment();
                 comment.UserId = User.Identity.GetUserId();
@@ -204,33 +217,42 @@ namespace Bug_tracker.Controllers
             if (ModelState.IsValid)
             {
                 var tickets = db.Tickets.FirstOrDefault(t => t.Id == ticketId);
+                var userId = User.Identity.GetUserId();
+                var MangerOrDeveloperId = db.Users.Where(p => p.Id == userId).FirstOrDefault();
+                var projectsIds = MangerOrDeveloperId.ProjectsList.Select(p => p.Id).ToList();
+                var projects = db.Tickets.Where(p => projectsIds.Contains(p.ProjectId)).ToList();
                 if (!ImageUploadValidator.IsWebFriendlyImage(image))
                 {
-                    ViewBag.ErrorMessage = "Please upload an image";
+                    ViewBag.ErrorMessage = "Please link the Image";
 
                 }
                 if (image == null)
                 {
                     return HttpNotFound();
                 }
+                if ((User.IsInRole("Admin")) 
+                    || (User.IsInRole("Project Manager") && projects.Any(p => p.Id ==  ticketId)) 
+                    || (User.IsInRole("Submitter") && tickets.CreaterId == userId) || (User.IsInRole("Developer") && tickets.Assignee.Id == userId))
+                {
+                    var fileName = Path.GetFileName(image.FileName);
+                    image.SaveAs(Path.Combine(Server.MapPath("~/Uploads/"), fileName));
+                    ticketAttachment.FilePath = "/Uploads/" + fileName;
+                    ticketAttachment.UserId = User.Identity.GetUserId();
+                    ticketAttachment.Created = DateTime.Now;
+                    ticketAttachment.TicketId = ticketId;
+                    db.TicketAttachments.Add(ticketAttachment);
+                    var user = db.Users.FirstOrDefault(p => p.Id == ticketAttachment.UserId);
 
-                var fileName = Path.GetFileName(image.FileName);
-                image.SaveAs(Path.Combine(Server.MapPath("~/Uploads/"), fileName));
-                ticketAttachment.FilePath = "/Uploads/" + fileName;
-                ticketAttachment.UserId = User.Identity.GetUserId();
-                ticketAttachment.Created = DateTime.Now;
-                ticketAttachment.TicketId = ticketId;
-                db.TicketAttachments.Add(ticketAttachment);
-                var user = db.Users.FirstOrDefault(p => p.Id == ticketAttachment.UserId);
-                var personalEmailService = new PersonalEmailService();
-                var mailMessage = new MailMessage(
-                WebConfigurationManager.AppSettings["emailto"], user.Email
-                       );
-                mailMessage.Body = "There is a new attachment to the Ticket";
-                mailMessage.Subject = "New Attachment";
-                mailMessage.IsBodyHtml = true;
-                personalEmailService.Send(mailMessage);
-                db.SaveChanges();            
+                    
+                    var personalEmailService = new PersonalEmailService();
+                    var mailMessage = new MailMessage(
+                    WebConfigurationManager.AppSettings["emailto"], user.Email  );
+                    mailMessage.Body = "There is a new attachment to the Ticket";
+                    mailMessage.Subject = "New Attachment";
+                    mailMessage.IsBodyHtml = true;
+                    personalEmailService.Send(mailMessage);
+                    db.SaveChanges();
+                }            
                 return RedirectToAction("Details", new { id= ticketId });
             }
             return View(ticketAttachment);
@@ -268,13 +290,13 @@ namespace Bug_tracker.Controllers
         {
             if (ModelState.IsValid)
             {
-                var dbsticket = db.Tickets.FirstOrDefault(p => p.Id == tickets.Id);
-                dbsticket.Name = tickets.Name;
-                dbsticket.Description = tickets.Description;
-                dbsticket.Updated = DateTime.Now;
+                var dbticket = db.Tickets.FirstOrDefault(p => p.Id == tickets.Id);
+                dbticket.Name = tickets.Name;
+                dbticket.Description = tickets.Description;
+                dbticket.Updated = DateTime.Now;
                 var dateChanged = DateTimeOffset.Now;
                 var changes = new List<TicketHistory>();
-                var dbTicket = db.Tickets.First(p => p.Id == tickets.Id);
+                var dbTicket = db.Tickets.FirstOrDefault(p => p.Id == tickets.Id);
                 dbTicket.Name = tickets.Name;
                 dbTicket.Description = tickets.Description;
                 dbTicket.TicketTypeId = tickets.TicketTypeId;
@@ -289,9 +311,9 @@ namespace Bug_tracker.Controllers
                     if (originalValue != currentValue)
                     {
                         var history = new TicketHistory();
-                        history.Changed = dateChanged;
                         history.NewValue = GetValueFromKey(property, currentValue);
                         history.OldValue = GetValueFromKey(property, originalValue);
+                        history.Changed = dateChanged;
                         history.Property = property;
                         history.TicketId = dbTicket.Id;
                         history.UserId = User.Identity.GetUserId();
@@ -311,8 +333,6 @@ namespace Bug_tracker.Controllers
                     mailMessage.IsBodyHtml = true;
                     personalEmailService.Send(mailMessage);
                 }
-
-
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }

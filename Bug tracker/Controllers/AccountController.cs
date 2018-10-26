@@ -10,6 +10,7 @@ using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
 using Bug_tracker.Models;
 using Microsoft.AspNet.Identity.EntityFramework;
+using System.Data.Entity.Infrastructure;
 
 namespace Bug_tracker.Controllers
 {
@@ -405,6 +406,38 @@ namespace Bug_tracker.Controllers
             AuthenticationManager.SignOut(DefaultAuthenticationTypes.ApplicationCookie);
             return RedirectToAction("Index", "Home");
         }
+
+        //one click users login
+        //[HttpPost]
+        //[ValidateAntiForgeryToken]
+        //public ActionResult LoginAsAdmin()
+        //{
+        //    var user = new ApplicationUser();
+        //        AuthenticationManager.SignOut(DefaultAuthenticationTypes.ApplicationCookie);
+            //var result = await SignInManager.PasswordSignInAsync(DbModel.Email, model.Password, model.RememberMe, shouldLockout: false);
+            //switch (result)
+            //{
+            //    case SignInStatus.Success:
+            //        return RedirectToLocal(returnUrl);
+            //    case SignInStatus.LockedOut:
+            //        return View("Lockout");
+            //    case SignInStatus.RequiresVerification:
+            //        return RedirectToAction("SendCode", new { ReturnUrl = returnUrl, RememberMe = model.RememberMe });
+            //    case SignInStatus.Failure:
+            //    default:
+            //        ModelState.AddModelError("", "Invalid login attempt.");
+            //        return View(model);
+        //    //}
+        //}
+        
+
+
+
+
+
+
+
+
 
         //
         // GET: /Account/ExternalLoginFailure

@@ -19,11 +19,11 @@
         <dl class="dl-horizontal">
 
             <dt>
-                @Html.DisplayNameFor(model => model.Project.Name)
-            </dt>
-
-            <dd>
                 Project
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.Project.Name)
             </dd>
 
             <dt>
@@ -31,7 +31,7 @@
             </dt>
 
             <dd>
-                TicketPriority
+                @Html.DisplayFor(model => model.TicketPriority.Name)
             </dd>
 
             <dt>
@@ -39,7 +39,7 @@
             </dt>
 
             <dd>
-                TicketStatus
+                @Html.DisplayFor(model => model.TicketStatus.Name)
             </dd>
 
             <dt>
@@ -47,11 +47,12 @@
             </dt>
 
             <dd>
-                TicketType
+                @Html.DisplayFor(model => model.TicketType.Name)
             </dd>
 
             <dt>
-                @Html.DisplayNameFor(model => model.Name)
+                Name
+
             </dt>
 
             <dd>
@@ -59,7 +60,7 @@
             </dd>
 
             <dt>
-                @Html.DisplayNameFor(model => model.Description)
+             Description
             </dt>
 
             <dd>
@@ -67,7 +68,7 @@
             </dd>
 
             <dt>
-                @Html.DisplayNameFor(model => model.Created)
+               Created
             </dt>
 
             <dd>
@@ -75,7 +76,7 @@
             </dd>
 
             <dt>
-                @Html.DisplayNameFor(model => model.Updated)
+                Updated
             </dt>
 
             <dd>
@@ -156,9 +157,9 @@
                 @Html.ActionLink("Edit", "Edit", new { id = Model.Id }) |
                 @Html.ActionLink("Back to List", "Index")
             </p>
-            <h2 style="text-align:center"> History </h2>
+            <h3 style="text-align:center"> History </h3>
             <div>
-                <hr />
+                <hr/>
                 <table id="wer" class="table">
                     <thead>
                         <tr>
@@ -180,23 +181,23 @@
                         </tr>
                     </thead>
                     <tbody>
-                        @foreach (var item in Model.Histories)
+                        @foreach (var history in Model.Histories)
                         {
                             <tr>
                                 <td>
-                                    @Html.DisplayFor(modelItem => item.Property)
+                                    @history.Property
                                 </td>
                                 <td>
-                                    @Html.DisplayFor(modelItem => item.OldValue)
+                                    @history.OldValue
                                 </td>
                                 <td>
-                                    @Html.DisplayFor(modelItem => item.NewValue)
+]                                    @history.NewValue
                                 </td>
                                 <td>
-                                    @Html.DisplayFor(modelItem => item.Changed)
+                                    @history.Changed
                                 </td>
                                 <td>
-                                    @Html.DisplayFor(modelItem => item.User.Name)
+                                    @history.User.Name
                                 </td>
                             </tr>
                         }

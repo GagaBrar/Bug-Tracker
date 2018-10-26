@@ -37,7 +37,6 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                <a class="navbar-brand" href="#">@User.Identity.Name</a>
                 <a class="navbar-brand" href="#">Project Management</a>
 
                 @Html.Partial("_LoginPartial")
@@ -74,22 +73,22 @@
                         <a href="@Url.Action("","Home")"><i class="fa fa-fw fa-dashboard"></i> Dashboard</a>
                     </li>
                     <li>
-                        <a href="javascript:;" data-toggle="collapse" data-target="#demo"><i class="fa fa-fw fa-arrows-v"></i> Profiles <i class="fa fa-fw fa-caret-down"></i></a>
-                        <ul id="demo" class="collapse">
-                            <li>
-                                <a href="#">Admin</a>
-                            </li>
-                            <li>
-                                <a href="#">Project Manager</a>
-                            </li>
-                            <li>
-                                <a href="#">Developer</a>
-                            </li>
-                            <li>
-                                <a href="#">Submitter</a>
-                            </li>
-                        </ul>
-                    </li>
+                            <a href="javascript:;" data-toggle="collapse" data-target="#demo"><i class="fa fa-fw fa-arrows-v"></i> Profiles <i class="fa fa-fw fa-caret-down"></i></a>
+                            <ul id="demo" class="collapse">
+                                <li>
+                                    <a href="@Url.Action("Index","Projects")">Admin</a>
+                                </li>
+                                <li>
+                                    <a href="@Url.Action("Index","Projects")">Project Manager</a>
+                                </li>
+                                <li>
+                                    <a href="@Url.Action("Index","Projects")">Developer</a>
+                                </li>
+                                <li>
+                                    <a href="@Url.Action("Index","Projects")">Submitter</a>
+                                </li>
+                            </ul>
+                        </li>
 
 
                     <li>
@@ -108,22 +107,32 @@
                         <li>
                             <a href="#" data-toggle="collapse" class=" hvr-bounce-to-right"><i class="fa fa-desktop nav_icon"></i> <span class="nav-label">Tickets</span><span class="fa arrow"></span></a>
                             <ul class="nav nav-second-level">
-                                <li><a href="@Url.Action("Index", "Tickets", new { id="" })" class=" hvr-bounce-to-right"> <i class="fa fa-info-circle nav_icon"></i>All Tickets</a></li>
-                                <li><a href="@Url.Action("UserTickets", "Tickets",new { id="User"})" class=" hvr-bounce-to-right"> <i class="fa fa-info-circle nav_icon"></i>Your Tickets</a></li>
+                                <li>
+                                    <a href="@Url.Action("Index", "Tickets", new { id="" })" class=" hvr-bounce-to-right"> <i class="fa fa-info-circle nav_icon"></i>All Tickets</a>
+                                </li>
+                                <li>
+                                    <a href="@Url.Action("UserTickets", "Tickets",new { id="User"})" class=" hvr-bounce-to-right"> <i class="fa fa-info-circle nav_icon"></i>Your Tickets</a>
+                                </li>
                             </ul>
                         </li>
                     }
-                    @if (User.IsInRole("Developer"))
+                    @if (User.IsInRole("Admin") || User.IsInRole("Developer"))
                     {
                         <li>
                             <a href="#" class=" hvr-bounce-to-right"><i class="fa fa-desktop nav_icon"></i> <span class="nav-label">Tickets</span><span class="fa arrow"></span></a>
                             <ul class="nav nav-second-level">
-                                <li><a href="@Url.Action("Index", "Tickets", new { id = "" })" class=" hvr-bounce-to-right"> <i class="fa fa-info-circle nav_icon"></i>All Tickets</a></li>
+                                <li>
+                                    <a href="@Url.Action("Index", "Tickets", new { id = "" })" class=" hvr-bounce-to-right"> <i class="fa fa-info-circle nav_icon"></i>All Tickets</a>
+                                </li>
                                 <li>
                                     <a href="@Url.Action("UserTickets", "Tickets")" class=" hvr-bounce-to-right"><i class="fa fa-dashboard nav_icon "></i><span class="nav-label">Tickets Assigned to you</span> </a>
                                 </li>
-                                <li>  <a href="@Url.Action("Index", "Projects")" class=" hvr-bounce-to-right"><i class="fa fa-dashboard nav_icon "></i><span class="nav-label">Your Projects</span> </a></li>
-                                <li> <a href="@Url.Action("ProjectManagerOrDeveloperTickets", "Tickets")" class=" hvr-bounce-to-right"><i class="fa fa-dashboard nav_icon "></i><span class="nav-label">Your Project Tickets</span> </a></li>
+                                <li>
+                                    <a href="@Url.Action("Index", "Projects")" class=" hvr-bounce-to-right"><i class="fa fa-dashboard nav_icon "></i><span class="nav-label">Your Projects</span> </a>
+                                </li>
+                                <li>
+                                    <a href="@Url.Action("ManagerOrDeveloperTickets", "Tickets")" class=" hvr-bounce-to-right"><i class="fa fa-dashboard nav_icon "></i><span class="nav-label">Your Project Tickets</span> </a>
+                                </li>
                             </ul>
                         </li>
                     }
@@ -133,7 +142,7 @@
 
 
                         <li>
-                            <a href="#"  class=" hvr-bounce-to-right"><i class="fa fa-desktop nav_icon"></i> <span class="nav-label">Tickets</span><span class="fa arrow"></span></a>
+                            <a href="#" class=" hvr-bounce-to-right"><i class="fa fa-desktop nav_icon"></i> <span class="nav-label">Tickets</span><span class="fa arrow"></span></a>
                             <ul class="nav nav-second-level">
                                 <li>
                                     <a href="@Url.Action("MyProjects", "Projects")" class=" hvr-bounce-to-right"><i class="fa fa-dashboard nav_icon "></i><span class="nav-label">Your Projects</span> </a>
@@ -141,17 +150,19 @@
                                 <li>
                                     <a href="@Url.Action("ProjectManagerOrDeveloperTickets", "Tickets")" class=" hvr-bounce-to-right"><i class="fa fa-dashboard nav_icon "></i><span class="nav-label">Tickets of Your Project</span> </a>
                                 </li>
-                                <li> <a href="@Url.Action("index", "Tickets", new { id = "" })" class=" hvr-bounce-to-right"><i class="fa fa-dashboard nav_icon "></i><span class="nav-label">All Tickets</span> </a></li>
+                                <li>
+                                    <a href="@Url.Action("index", "Tickets", new { id = "" })" class=" hvr-bounce-to-right"><i class="fa fa-dashboard nav_icon "></i><span class="nav-label">All Tickets</span> </a>
+                                </li>
                             </ul>
                         </li>
 
                     }
 
-                        <li>
-                            <a href="@Url.Action("BlankPage", "Home")"><i class="fa fa-fw fa-file"></i> Blank Page</a>
-                        </li>
+                    <li>
+                        <a href="@Url.Action("BlankPage", "Home")"><i class="fa fa-fw fa-file"></i> Blank Page</a>
+                    </li>
 
-                    </ul>
+                </ul>
             </div>
             <!-- /.navbar-collapse -->
         </nav>

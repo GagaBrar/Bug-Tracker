@@ -52,7 +52,6 @@ namespace Bug_tracker.Models
         }
 
         public System.Data.Entity.DbSet<Bug_tracker.Models.Project> Projects { get; set; }
-
         public System.Data.Entity.DbSet<Bug_tracker.Models.Tickets> Tickets { get; set; }
         public System.Data.Entity.DbSet<Bug_tracker.Models.TicketStatus> TicketStatuses { get; set; }
         public System.Data.Entity.DbSet<Bug_tracker.Models.TicketPriority> TicketPriorities { get; set; }
