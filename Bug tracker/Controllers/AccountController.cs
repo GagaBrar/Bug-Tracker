@@ -14,7 +14,6 @@ using System.Data.Entity.Infrastructure;
 
 namespace Bug_tracker.Controllers
 {
-    [Authorize]
     public class AccountController : Controller
     {
         private ApplicationSignInManager _signInManager;
@@ -96,6 +95,33 @@ namespace Bug_tracker.Controllers
                     ModelState.AddModelError("", "Invalid login attempt.");
                     return View(model);
             }
+        }
+
+        public ActionResult LoginAsDemoUsers(string user) {
+            var demouser = new ApplicationUser();
+            AuthenticationManager.SignOut(DefaultAuthenticationTypes.ApplicationCookie);
+            if (user == "Developer")
+            {
+                demouser = UserManager.FindByEmail("developer@bugtracker.com");
+            }
+            if (user == "Project Manager")
+            {
+                demouser = UserManager.FindByEmail("pmuser@bugtracker.com");
+            }
+            if (user == "Admin")
+            {
+                demouser = UserManager.FindByEmail("admin@bugtracker.com");
+            }
+            if (user == "Submitter")
+            {
+                demouser = UserManager.FindByEmail("submitter@bugtracker.com");
+            }
+            if (user != null)
+            {
+                SignInManager.SignIn(demouser, isPersistent: false, rememberBrowser: false);
+            }
+            return RedirectToAction("Index", "");
+
         }
 
         //

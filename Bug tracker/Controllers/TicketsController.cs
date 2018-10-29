@@ -62,22 +62,23 @@ namespace Bug_tracker.Controllers
         public ActionResult ProjectManagerOrDeveloperTickets()
         {
             string userId = User.Identity.GetUserId();
-            var ProjectId = db.Users.Where(p => p.Id == userId).FirstOrDefault();
-            var projectsIds = ProjectId.ProjectsList.Select(p => p.Id).ToList();
-            var tickets1 = db.Tickets.Where(p => projectsIds.Contains(p.ProjectId)).ToList();
-            return View("Index", tickets1);
+            var UserIds = db.Users.Where(p => p.Id == userId).FirstOrDefault();
+            var projectsId = UserIds.ProjectsList.Select(p => p.Id).ToList();
+            var tickets = db.Tickets.Where(p => projectsId.Contains(p.ProjectId)).ToList();
+            return View("Index", tickets);
         }
 
         public ActionResult AssignDeveloper(int ticketId)
         {
             var model = new AssigndeveloperTicket();
             var ticket = db.Tickets.FirstOrDefault(p => p.Id == ticketId);
-          
-            var users = db.Users.ToList();
-            //var users = userRoleHelper.UsersInRole("Developer");
-            var userAssignedtoTicket = ticket.Users.Select(p => p.Id).ToList();
-            model.TicketId = ticketId;
-            model.DeveloperList = new SelectList(users, "Id", "Name");
+
+            //var users = db.Users.ToList();
+            ////var users = userRoleHelper.UsersInRole("Developer");
+            //var userAssignedtoTicket = ticket.Users   .Select(p => p.Id).ToList();
+            //model.TicketId = ticketId;
+            var developers = UserRoleHelper.UsersInRole("Developer");
+            model.DeveloperList = new SelectList(developers, "Id", "Name");
             return View(model);
         }
 

@@ -48,6 +48,7 @@ namespace Bug_tracker.Migrations
                 adminUser = new ApplicationUser();
                 adminUser.Email = "admin@bugtracker.com";
                 adminUser.UserName = "admin@bugtracker.com";
+                adminUser.Name = "Admin";
                
                 userManager.Create(adminUser, "Password-1");
             }
@@ -60,6 +61,65 @@ namespace Bug_tracker.Migrations
             {
                 userManager.AddToRole(adminUser.Id, "Admin");
             }
+
+            ApplicationUser DeveloperUser;
+            if (!context.Users.Any(item => item.UserName == "developer@bugtracker.com"))
+            {
+                DeveloperUser = new ApplicationUser();
+                DeveloperUser.UserName = "developer@bugtracker.com";
+                DeveloperUser.Email = "developer@bugtracker.com";
+                DeveloperUser.Name = "Developer";
+                userManager.Create(DeveloperUser, "Password-1");
+            }
+            else
+            {
+                DeveloperUser = context.Users.FirstOrDefault(item => item.UserName == "developer@bugtracker.com");
+            }
+
+            if (!userManager.IsInRole(DeveloperUser.Id, "Developer"))
+            {
+                userManager.AddToRole(DeveloperUser.Id, "Developer");
+            }
+
+            ApplicationUser PMUser;
+            if (!context.Users.Any(item => item.UserName == "pmuser@bugtracker.com"))
+            {
+                PMUser = new ApplicationUser();
+                PMUser.UserName = "pmuser@bugtracker.com";
+                PMUser.Email = "pmuser@bugtracker.com";
+                PMUser.Name = "Project Manager";
+                userManager.Create(PMUser, "Password-1");
+            }
+            else
+            {
+                PMUser = context.Users.FirstOrDefault(item => item.UserName == "pmuser@bugtracker.com");
+            }
+
+            if (!userManager.IsInRole(PMUser.Id, "Project Manager"))
+            {
+                userManager.AddToRole(PMUser.Id, "Project Manager");
+            }
+
+            ApplicationUser SubmitterUser;
+            if (!context.Users.Any(item => item.UserName == "submitter@bugtracker.com"))
+            {
+                SubmitterUser = new ApplicationUser();
+                SubmitterUser.UserName = "submitter@bugtracker.com";
+                SubmitterUser.Email = "submitter@bugtracker.com";
+                SubmitterUser.Name = "Submitter";
+                userManager.Create(SubmitterUser, "Password-1");
+            }
+            else
+            {
+                SubmitterUser = context.Users.FirstOrDefault(item => item.UserName == "submitter@bugtracker.com");
+            }
+
+            if (!userManager.IsInRole(SubmitterUser.Id, "Submitter"))
+            {
+                userManager.AddToRole(SubmitterUser.Id, "Submitter");
+            }
+
+
             context.TicketTypes.AddOrUpdate(x => x.Id,
            new Models.TicketType() { Id = 1, Name = "Bug Fixes" },
            new Models.TicketType() { Id = 2, Name = "Software Update" },

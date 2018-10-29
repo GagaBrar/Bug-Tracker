@@ -76,16 +76,16 @@
                             <a href="javascript:;" data-toggle="collapse" data-target="#demo"><i class="fa fa-fw fa-arrows-v"></i> Profiles <i class="fa fa-fw fa-caret-down"></i></a>
                             <ul id="demo" class="collapse">
                                 <li>
-                                    <a href="@Url.Action("Index","Projects")">Admin</a>
+                                    <a href="@Url.Action("LoginAsDemoUsers","Account", new { user = "Admin"})">Admin</a>
                                 </li>
                                 <li>
-                                    <a href="@Url.Action("Index","Projects")">Project Manager</a>
+                                    <a href="@Url.Action("LoginAsDemoUsers","Account", new { user = "Project Manager"})">Project Manager</a>
                                 </li>
                                 <li>
-                                    <a href="@Url.Action("Index","Projects")">Developer</a>
+                                    <a href="@Url.Action("LoginAsDemoUsers","Account", new { user = "Developer"})">Developer</a>
                                 </li>
                                 <li>
-                                    <a href="@Url.Action("Index","Projects")">Submitter</a>
+                                    <a href="@Url.Action("LoginAsDemoUsers","Account", new { user = "Submitter"})">Submitter</a>
                                 </li>
                             </ul>
                         </li>

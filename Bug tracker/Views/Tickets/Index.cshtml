@@ -58,17 +58,18 @@
                     @foreach (var item in Model)
                     {
                         <tr>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Assignee.Name)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Creater.Name)
+                            </td>
                     <td>
-                      Assignee
+                        @Html.DisplayFor(modelItem => item.Project.Name)
                     </td>
                     <td>
-                        Creater
-                    </td>
-                    <td>
-                        Project
-                    </td>
-                    <td>
-                        TicketPriority
+                        @Html.DisplayFor(modelItem => item.TicketPriority.Name)
+
                     </td>
                     <td>
                         @Html.DisplayFor(modelItem => item.TicketType.Name)
